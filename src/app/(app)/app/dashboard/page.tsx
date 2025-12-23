@@ -5,7 +5,7 @@ import PetList from '@/components/pet-list';
 import SearchForm from '@/components/search-form';
 import Stats from '@/components/stats';
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
   return (
     <main>
       <div className="flex items-center justify-between text-white py-8">

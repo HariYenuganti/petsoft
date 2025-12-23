@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Logo from '@/components/logo';
-
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 export default function Home() {
   return (
     <main
@@ -22,9 +23,16 @@ export default function Home() {
         </h1>
         <p className="text-2xl font-medium max-w-[600px]">
           Use PetSoft to easily keep track of your pets with ease. Get lifetime
-          access for $299.
+          access for $499.
         </p>
-        <div className="mt-10"></div>
+        <div className="mt-10 space-x-3">
+          <Button asChild>
+            <Link href="/signup">Get Started</Link>
+          </Button>
+          <Button asChild variant="secondary">
+            <Link href="/login">Log in</Link>
+          </Button>
+        </div>
       </div>
     </main>
   );

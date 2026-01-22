@@ -61,13 +61,13 @@ export default function PetContextProvider({
         ];
       } else if (action === 'edit') {
         return state.map((pet) =>
-          pet.id === payload.id ? { ...pet, ...payload.newPetData } : pet
+          pet.id === payload.id ? { ...pet, ...payload.newPetData } : pet,
         );
       } else if (action === 'delete') {
         return state.filter((pet) => pet.id !== payload);
       }
       return state;
-    }
+    },
   );
   const [selectedPetId, setSelectedPetId] = useState<string | null>(null);
 

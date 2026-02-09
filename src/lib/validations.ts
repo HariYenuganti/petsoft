@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { DEFAULT_PET_IMAGE_URL } from './constants';
 
 export const petIdSchema = z.string().cuid();
 
@@ -29,3 +28,12 @@ export const petFormSchema = z.object({
 });
 
 export type PetFormValues = z.infer<typeof petFormSchema>;
+
+export const authSchema = z.object({
+  email: z.string().email({ message: 'Invalid email' }),
+  password: z
+    .string()
+    .min(8, { message: 'Password must be at least 8 characters long' }),
+});
+
+export type TAuth = z.infer<typeof authSchema>;

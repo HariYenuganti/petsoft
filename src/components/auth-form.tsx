@@ -17,6 +17,7 @@ export default function AuthForm({ type }: AuthFormProps) {
           name="email"
           type="email"
           id="email"
+          required
         />
       </div>
       <div className="mb-4 mt-2 space-y-1">
@@ -26,6 +27,7 @@ export default function AuthForm({ type }: AuthFormProps) {
           name="password"
           type="password"
           id="password"
+          required
         />
       </div>
       <Button type="submit">{type === 'logIn' ? 'Log In' : 'Sign Up'}</Button>

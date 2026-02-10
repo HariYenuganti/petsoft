@@ -5,25 +5,48 @@ import prisma from '@/lib/db';
 import { sleep } from '@/lib/utils';
 import { authSchema, petFormSchema, petIdSchema } from '@/lib/validations';
 import { DEFAULT_PET_IMAGE_URL } from '@/lib/constants';
-import { auth, signIn, signOut } from '@/lib/auth';
+import { signIn, signOut } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import bcrypt from 'bcryptjs';
 import { checkAuth, getPetById } from '@/lib/server-utils';
 import { Prisma } from '@prisma/client';
+import { AuthError } from 'next-auth';
+
 //---User Actions---
 
-export async function logIn(formData: unknown) {
+export async function logIn(previousState: unknown, formData: unknown) {
+  await sleep(1000);
+
   if (!(formData instanceof FormData)) {
     return {
-      message: 'Invalid form data',
+      message: 'Invalid form data.',
     };
   }
 
-  await signIn('credentials', formData);
-  redirect('/app/dashboard');
+  try {
+    await signIn('credentials', formData);
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case 'CredentialsSignin': {
+          return {
+            message: 'Invalid credentials.',
+          };
+        }
+        default: {
+          return {
+            message: 'Error. Could not sign in.',
+          };
+        }
+      }
+    }
+
+    throw error; // nextjs redirects throws error, so we need to rethrow it
+  }
 }
 
-export async function signUp(formData: unknown) {
+export async function signUp(previousState: unknown, formData: unknown) {
+  await sleep(1000);
   // check if formData is instanceof FormData
   if (!(formData instanceof FormData)) {
     return {
@@ -63,6 +86,7 @@ export async function signUp(formData: unknown) {
 }
 
 export async function logOut() {
+  await sleep(1000);
   await signOut({ redirectTo: '/' });
 }
 

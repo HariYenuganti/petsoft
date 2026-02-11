@@ -61,7 +61,13 @@ const config: NextAuthConfig = {
         return true;
       }
       if (isLoggedIn && !istryingToAccessApp) {
-        return Response.redirect(new URL('/app/dashboard', request.nextUrl));
+        if (
+          request.nextUrl.pathname.includes('/login') ||
+          request.nextUrl.pathname.includes('/signup')
+        ) {
+          return Response.redirect(new URL('/payment', request.nextUrl));
+        }
+        return true;
       }
       if (!isLoggedIn && !istryingToAccessApp) {
         return true;

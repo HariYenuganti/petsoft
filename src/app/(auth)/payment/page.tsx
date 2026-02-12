@@ -1,5 +1,5 @@
 'use client';
-import { createCheckoutSession } from '@/actions/actions';
+
 import H1 from '@/components/h1';
 import PaymentHeader from '@/components/payment-header';
 import { Button } from '@/components/ui/button';
@@ -7,11 +7,10 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React, { useTransition } from 'react';
 
-export default function PaymentPage({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
+export default function PaymentPage(props: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  const searchParams = React.use(props.searchParams);
   const [isPending, startTransition] = useTransition();
   const { data: session, update, status } = useSession();
   const router = useRouter();
@@ -38,7 +37,24 @@ export default function PaymentPage({
           disabled={isPending}
           onClick={async () => {
             startTransition(async () => {
-              await createCheckoutSession();
+              try {
+                const response = await fetch('/api/create-checkout-session', {
+                  method: 'POST',
+                });
+                const result = await response.json();
+
+                if (!response.ok) {
+                  alert(result.error || 'Something went wrong');
+                  return;
+                }
+
+                if (result.url) {
+                  window.location.href = result.url;
+                }
+              } catch (e) {
+                console.error(e);
+                alert('Failed to connect to server');
+              }
             });
           }}
         >

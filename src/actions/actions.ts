@@ -5,14 +5,12 @@ import prisma from '@/lib/db';
 import { sleep } from '@/lib/utils';
 import { authSchema, petFormSchema, petIdSchema } from '@/lib/validations';
 import { DEFAULT_PET_IMAGE_URL } from '@/lib/constants';
-import { signIn, signOut } from '@/lib/auth';
+import { signIn, signOut, auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import bcrypt from 'bcryptjs';
 import { checkAuth, getPetById } from '@/lib/server-utils';
 import { Prisma } from '@prisma/client';
 import { AuthError } from 'next-auth';
-
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 //---User Actions---
 
@@ -119,7 +117,9 @@ export async function addPet(pet: unknown) {
       },
     });
     revalidatePath('/app', 'layout');
+    revalidatePath('/app', 'layout');
   } catch (error) {
+    console.error('addPet Error:', error);
     return {
       message: 'Failed to add pet',
     };
@@ -220,30 +220,4 @@ export async function deletePet(petId: unknown) {
       message: 'Failed to delete pet',
     };
   }
-}
-
-//---Payment Actions---
-export async function createCheckoutSession() {
-  //---Authentication Check---
-  const session = await checkAuth();
-
-  const checkoutSession = await stripe.checkout.sessions.create({
-    customer_email: session.user.email,
-    mode: 'payment',
-    success_url: `${process.env.NEXT_PUBLIC_APP_URL}/payment?success=true`,
-    cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/payment?canceled=true`,
-    line_items: [
-      {
-        price: process.env.STRIPE_PRICE_ID,
-        quantity: 1,
-      },
-    ],
-    metadata: {
-      userId: session.user.id,
-    },
-    payment_method_types: ['card'],
-  });
-
-  //redirect user
-  redirect(checkoutSession.url);
 }

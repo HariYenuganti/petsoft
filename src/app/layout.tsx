@@ -16,9 +16,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning={true}>
       <body
         className={`${inter.className} text-sm min-h-screen text-zinc-900 bg-[#E5E8EC]`}
+        suppressHydrationWarning={true}
       >
         <SessionProvider>{children}</SessionProvider>
       </body>

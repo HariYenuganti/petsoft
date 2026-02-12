@@ -1,6 +1,7 @@
 'use client';
 import { createCheckoutSession } from '@/actions/actions';
 import H1 from '@/components/h1';
+import PaymentHeader from '@/components/payment-header';
 import { Button } from '@/components/ui/button';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
@@ -17,6 +18,7 @@ export default function PaymentPage({
 
   return (
     <main className="flex flex-col items-center space-y-10 justify-center">
+      <PaymentHeader />
       <H1>PetSoft requires payment to access full features</H1>
 
       {searchParams.success && (

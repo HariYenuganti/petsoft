@@ -29,11 +29,4 @@ export async function getPetsByUserId(userId: User['id']) {
   return pets;
 }
 
-export async function getUserByEmail(email: User['email']) {
-  const user = await prisma.user.findUnique({
-    where: {
-      email,
-    },
-  });
-  return user;
-}
+export { getUserByEmail } from './user-model';

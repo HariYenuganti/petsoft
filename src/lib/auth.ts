@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import { getUserByEmail } from './server-utils';
 import { authSchema } from '@/lib/validations';
 import { nextAuthEdgeConfig } from './auth-edge';
+import prisma from './db';
 
 const config = {
   ...nextAuthEdgeConfig,
@@ -40,6 +41,31 @@ const config = {
       },
     }),
   ],
+  callbacks: {
+    ...nextAuthEdgeConfig.callbacks,
+    jwt: async ({ token, user, trigger }) => {
+      if (user) {
+        // on sign in
+        token.userId = user.id;
+        token.email = user.email!;
+        token.hasPremiumAccess = user.hasPremiumAccess;
+      }
+
+      if (trigger === 'update') {
+        // on every request
+        const userFromDb = await prisma.user.findUnique({
+          where: {
+            email: token.email,
+          },
+        });
+        if (userFromDb) {
+          token.hasPremiumAccess = userFromDb.hasPremiumAccess;
+        }
+      }
+
+      return token;
+    },
+  },
 } satisfies NextAuthConfig;
 
 export const {

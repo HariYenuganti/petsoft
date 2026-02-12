@@ -1,5 +1,4 @@
-import { NextAuthConfig } from 'next-auth';
-import prisma from './db';
+import NextAuth, { NextAuthConfig } from 'next-auth';
 
 export const nextAuthEdgeConfig = {
   pages: {
@@ -49,24 +48,12 @@ export const nextAuthEdgeConfig = {
 
       return false;
     },
-    jwt: async ({ token, user, trigger }) => {
+    jwt: async ({ token, user }) => {
       if (user) {
         // on sign in
         token.userId = user.id;
         token.email = user.email!;
         token.hasPremiumAccess = user.hasPremiumAccess;
-      }
-
-      if (trigger === 'update') {
-        // on every request
-        const userFromDb = await prisma.user.findUnique({
-          where: {
-            email: token.email,
-          },
-        });
-        if (userFromDb) {
-          token.hasPremiumAccess = userFromDb.hasPremiumAccess;
-        }
       }
 
       return token;
@@ -80,3 +67,5 @@ export const nextAuthEdgeConfig = {
   },
   providers: [],
 } satisfies NextAuthConfig;
+
+export const { auth: middlewareAuth } = NextAuth(nextAuthEdgeConfig);

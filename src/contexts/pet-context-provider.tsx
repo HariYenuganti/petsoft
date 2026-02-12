@@ -55,6 +55,7 @@ export default function PetContextProvider({
           {
             ...payload,
             id: Date.now().toString(),
+            userId: '', // Placeholder, will be replaced by server
             createdAt: new Date(),
             updatedAt: new Date(),
           },

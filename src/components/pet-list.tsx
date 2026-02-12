@@ -2,12 +2,14 @@
 import Image from 'next/image';
 import { usePetContext, useSearchContext } from '@/lib/hooks';
 import { cn } from '@/lib/utils';
+import { DEFAULT_PET_IMAGE_URL } from '@/lib/constants';
+
 export default function PetList() {
   const { pets, selectedPetId, handleSelectedPetId } = usePetContext();
   const { searchQuery } = useSearchContext();
 
   const filteredPets = pets.filter((pet) =>
-    pet.name.toLowerCase().includes(searchQuery)
+    pet.name.toLowerCase().includes(searchQuery),
   );
 
   return (
@@ -20,11 +22,11 @@ export default function PetList() {
             }}
             className={cn(
               'flex items-center h-[70px] w-full cursor-pointer px-5 text-base gap-3 hover:bg-[#EFF1F2] focus:bg-[#EFF1F2] transition',
-              { ' bg-[#EFF1F2]': selectedPetId === pet.id }
+              { ' bg-[#EFF1F2]': selectedPetId === pet.id },
             )}
           >
             <Image
-              src={pet.imageUrl}
+              src={pet.imageUrl || DEFAULT_PET_IMAGE_URL}
               alt="pet image"
               width={45}
               height={45}

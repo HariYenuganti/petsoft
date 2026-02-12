@@ -27,13 +27,15 @@ type props = {
   pet: Pet;
 };
 
+import { DEFAULT_PET_IMAGE_URL } from '@/lib/constants';
+
 function TopBar({ pet }: props) {
   const { handleCheckoutPet } = usePetContext();
 
   return (
     <div className=" flex items-center bg-white px-8 py-5 border-b border-light">
       <Image
-        src={pet?.imageUrl || ''}
+        src={pet?.imageUrl || DEFAULT_PET_IMAGE_URL}
         alt="Selected Pet Image"
         width={75}
         height={75}

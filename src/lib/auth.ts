@@ -1,45 +1,38 @@
-import nextAuth, { NextAuthConfig } from 'next-auth';
+import NextAuth, { NextAuthConfig } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
-import prisma from './db';
 import bcrypt from 'bcryptjs';
 import { getUserByEmail } from './server-utils';
 import { authSchema } from '@/lib/validations';
+import { nextAuthEdgeConfig } from './auth-edge';
 
-const config: NextAuthConfig = {
-  pages: {
-    signIn: '/login',
-  },
-  session: {
-    maxAge: 30 * 24 * 60 * 60,
-    strategy: 'jwt',
-  },
+const config = {
+  ...nextAuthEdgeConfig,
   providers: [
     Credentials({
       async authorize(credentials) {
-        //runs on login
+        // runs on login
 
-        //validation
+        // validation
         const validatedFormData = authSchema.safeParse(credentials);
         if (!validatedFormData.success) {
           return null;
         }
 
-        //extract values
+        // extract values
         const { email, password } = validatedFormData.data;
-        const user = await getUserByEmail(email);
 
+        const user = await getUserByEmail(email);
         if (!user) {
-          console.log('User not found');
+          console.log('No user found');
           return null;
         }
 
-        const isPasswordValid = await bcrypt.compare(
+        const passwordsMatch = await bcrypt.compare(
           password,
           user.hashedPassword,
         );
-
-        if (!isPasswordValid) {
-          console.log('Invalid Credentials');
+        if (!passwordsMatch) {
+          console.log('Invalid credentials');
           return null;
         }
 
@@ -47,51 +40,11 @@ const config: NextAuthConfig = {
       },
     }),
   ],
-  callbacks: {
-    authorized: ({ auth, request }) => {
-      //runs on every request with middleware
-      const isLoggedIn = !!auth?.user;
-      const istryingToAccessApp = request.nextUrl.pathname.startsWith('/app');
-
-      if (!isLoggedIn && istryingToAccessApp) {
-        return false;
-      }
-
-      if (isLoggedIn && istryingToAccessApp) {
-        return true;
-      }
-      if (isLoggedIn && !istryingToAccessApp) {
-        if (
-          request.nextUrl.pathname.includes('/login') ||
-          request.nextUrl.pathname.includes('/signup')
-        ) {
-          return Response.redirect(new URL('/payment', request.nextUrl));
-        }
-        return true;
-      }
-      if (!isLoggedIn && !istryingToAccessApp) {
-        return true;
-      }
-      return false;
-    },
-    jwt: ({ token, user }) => {
-      if (user) {
-        token.userId = user.id;
-      }
-      return token;
-    },
-    session: ({ session, token }) => {
-      if (session.user) {
-        session.user.id = token.userId;
-      }
-      return session;
-    },
-  },
-};
+} satisfies NextAuthConfig;
 
 export const {
   auth,
   signIn,
   signOut,
   handlers: { GET, POST },
-} = nextAuth(config);
+} = NextAuth(config);

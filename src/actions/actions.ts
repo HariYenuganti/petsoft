@@ -62,6 +62,7 @@ export async function signUp(previousState: unknown, formData: unknown) {
   }
   const { email, password } = validatedFormData.data;
   const hashedPassword = await bcrypt.hash(password, 10);
+
   try {
     await prisma.user.create({
       data: {
@@ -69,7 +70,6 @@ export async function signUp(previousState: unknown, formData: unknown) {
         hashedPassword,
       },
     });
-    await signIn('credentials', formData);
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === 'P2002') {
@@ -78,10 +78,13 @@ export async function signUp(previousState: unknown, formData: unknown) {
         };
       }
     }
+
     return {
       message: 'Failed to sign up',
     };
   }
+
+  await signIn('credentials', formData);
 }
 
 export async function logOut() {

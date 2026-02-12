@@ -17,8 +17,6 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 //---User Actions---
 
 export async function logIn(previousState: unknown, formData: unknown) {
-  await sleep(1000);
-
   if (!(formData instanceof FormData)) {
     return {
       message: 'Invalid form data.',
@@ -48,7 +46,6 @@ export async function logIn(previousState: unknown, formData: unknown) {
 }
 
 export async function signUp(previousState: unknown, formData: unknown) {
-  await sleep(1000);
   // check if formData is instanceof FormData
   if (!(formData instanceof FormData)) {
     return {
@@ -88,15 +85,12 @@ export async function signUp(previousState: unknown, formData: unknown) {
 }
 
 export async function logOut() {
-  await sleep(1000);
   await signOut({ redirectTo: '/' });
 }
 
 //---Pet Actions---
 
 export async function addPet(pet: unknown) {
-  await sleep(1000);
-
   const session = await checkAuth();
 
   const validatedPet = petFormSchema.safeParse(pet);
@@ -130,8 +124,6 @@ export async function addPet(pet: unknown) {
 }
 
 export async function editPet(petId: unknown, newPetData: unknown) {
-  await sleep(2000);
-
   //---Authentication Check---
   const session = await checkAuth();
 
@@ -181,8 +173,6 @@ export async function editPet(petId: unknown, newPetData: unknown) {
 }
 
 export async function deletePet(petId: unknown) {
-  await sleep(2000);
-
   //---Authentication Check---
   const session = await checkAuth();
 

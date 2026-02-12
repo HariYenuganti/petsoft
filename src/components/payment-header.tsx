@@ -1,8 +1,7 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
-import { logOut } from '@/actions/actions';
 
 export default function PaymentHeader() {
   const { data: session, status } = useSession();
@@ -18,7 +17,7 @@ export default function PaymentHeader() {
         variant="secondary"
         size="sm"
         onClick={async () => {
-          await logOut();
+          await signOut({ callbackUrl: '/' });
         }}
       >
         Sign Out

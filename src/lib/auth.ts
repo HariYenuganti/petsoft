@@ -46,7 +46,7 @@ const config = {
     jwt: async ({ token, user, trigger }) => {
       if (user) {
         // on sign in
-        token.userId = user.id;
+        token.userId = user.id!;
         token.email = user.email!;
         token.hasPremiumAccess = user.hasPremiumAccess;
       }

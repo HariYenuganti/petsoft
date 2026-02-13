@@ -21,8 +21,8 @@ export default function PetList() {
               handleSelectedPetId(pet.id);
             }}
             className={cn(
-              'flex items-center h-[70px] w-full cursor-pointer px-5 text-base gap-3 hover:bg-[#EFF1F2] focus:bg-[#EFF1F2] transition',
-              { ' bg-[#EFF1F2]': selectedPetId === pet.id },
+              'flex items-center h-[70px] w-full cursor-pointer px-5 text-base gap-3 hover:bg-secondary/50 focus:bg-secondary/50 transition',
+              { 'bg-secondary/50': selectedPetId === pet.id },
             )}
           >
             <Image

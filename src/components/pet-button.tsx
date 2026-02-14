@@ -17,6 +17,7 @@ type PetButtonProps = {
   children?: React.ReactNode;
   onClick?: () => void;
   disabled?: boolean;
+  className?: string;
 };
 
 export default function PetButton({
@@ -24,12 +25,18 @@ export default function PetButton({
   children,
   onClick,
   disabled,
+  className,
 }: PetButtonProps) {
   const [isFormOpen, setIsFormOpen] = useState(false);
 
   if (actionType === 'checkout') {
     return (
-      <Button variant="secondary" onClick={onClick} disabled={disabled}>
+      <Button
+        variant="secondary"
+        onClick={onClick}
+        disabled={disabled}
+        className={className}
+      >
         {children}
       </Button>
     );
@@ -39,11 +46,13 @@ export default function PetButton({
     <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
       <DialogTrigger asChild>
         {actionType === 'add' ? (
-          <Button size="icon">
+          <Button size="icon" className={className}>
             <PlusIcon className="w-6 h-6" />
           </Button>
         ) : (
-          <Button variant="secondary">{children}</Button>
+          <Button variant="secondary" className={className}>
+            {children}
+          </Button>
         )}
       </DialogTrigger>
       <DialogContent>

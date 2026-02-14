@@ -16,16 +16,16 @@ export default function AppHeader() {
       <Logo />
 
       <nav>
-        <ul className="flex gap-2 text-xs">
+        <ul className="flex gap-1 sm:gap-2 text-sm sm:text-xs">
           {routes.map((route) => (
             <li key={route.label}>
               <Link
                 href={route.path}
                 className={cn(
-                  'text-white/70 rounded-sm px-2 py-1 hover:text-white focus:text-white transition',
+                  'text-white/70 rounded-sm px-3 py-2 sm:px-2 sm:py-1 hover:text-white focus:text-white transition',
                   {
                     'bg-black/10 text-white': route.path === activePathname,
-                  }
+                  },
                 )}
               >
                 {route.label}

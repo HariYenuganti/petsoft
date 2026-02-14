@@ -33,20 +33,27 @@ function TopBar({ pet }: props) {
   const { handleCheckoutPet } = usePetContext();
 
   return (
-    <div className=" flex items-center bg-white px-8 py-5 border-b border-light">
-      <Image
-        src={pet?.imageUrl || DEFAULT_PET_IMAGE_URL}
-        alt="Selected Pet Image"
-        width={75}
-        height={75}
-        className="w-[75px] h-[75px] rounded-full object-cover"
-      />
-      <h2 className="text-3xl font-semibold leading-7 ml-5">{pet.name}</h2>
+    <div className="flex flex-col sm:flex-row items-start sm:items-center bg-white px-4 sm:px-8 py-4 sm:py-5 border-b border-light gap-3 sm:gap-0">
+      <div className="flex items-center gap-3 sm:gap-0">
+        <Image
+          src={pet?.imageUrl || DEFAULT_PET_IMAGE_URL}
+          alt="Selected Pet Image"
+          width={75}
+          height={75}
+          className="w-[60px] h-[60px] sm:w-[75px] sm:h-[75px] rounded-full object-cover"
+        />
+        <h2 className="text-2xl sm:text-3xl font-semibold leading-7 sm:ml-5">
+          {pet.name}
+        </h2>
+      </div>
 
-      <div className="ml-auto space-x-2">
-        <PetButton actionType="edit">Edit</PetButton>
+      <div className="flex gap-2 sm:ml-auto w-full sm:w-auto">
+        <PetButton actionType="edit" className="flex-1 sm:flex-none">
+          Edit
+        </PetButton>
         <PetButton
           actionType="checkout"
+          className="flex-1 sm:flex-none"
           onClick={async () => {
             await handleCheckoutPet(pet.id);
           }}
@@ -60,24 +67,26 @@ function TopBar({ pet }: props) {
 
 function OtherInfo({ pet }: props) {
   return (
-    <div className="flex justify-around py-10 px-5 text-center">
+    <div className="flex justify-around py-6 sm:py-10 px-3 sm:px-5 text-center gap-4">
       <div>
         <h3 className="text-[13px] font-medium uppercase text-zinc-700">
           Owner name
         </h3>
-        <p className="mt-1 text-lg text-zinc-800">{pet.ownerName}</p>
+        <p className="mt-1 text-base sm:text-lg text-zinc-800">
+          {pet.ownerName}
+        </p>
       </div>
 
       <div>
         <h3 className="text-[13px] font-medium uppercase text-zinc-700">Age</h3>
-        <p className="mt-1 text-lg text-zinc-800">{pet.age}</p>
+        <p className="mt-1 text-base sm:text-lg text-zinc-800">{pet.age}</p>
       </div>
     </div>
   );
 }
 function Notes({ pet }: props) {
   return (
-    <section className=" flex-1 bg-white px-7 py-5 rounded-md mb-9 mx-8 border border-light">
+    <section className="flex-1 bg-white px-4 sm:px-7 py-4 sm:py-5 rounded-md mb-4 sm:mb-9 mx-4 sm:mx-8 border border-light">
       {pet.notes}
     </section>
   );

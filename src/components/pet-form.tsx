@@ -51,47 +51,63 @@ export default function PetForm({ actionType, onFormSubmit }: PetFormProps) {
         }
 
         toast.success(
-          actionType === 'add'
-            ? 'Pet added successfully'
-            : 'Pet edited successfully',
+          actionType === 'add' ? 'Guest added' : 'Guest updated',
         );
       }}
-      className="flex flex-col"
+      className="flex flex-col gap-6"
     >
-      <div className="space-y-3">
-        <div className="space-y-1">
+      <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-1.5">
           <Label htmlFor="name">Name</Label>
-          <Input id="name" {...register('name')} />
-          {errors.name && <p className="text-red-500">{errors.name.message}</p>}
+          <Input id="name" variant="underline" {...register('name')} />
+          {errors.name && (
+            <p className="text-alert text-[12px] italic font-serif">
+              {errors.name.message}
+            </p>
+          )}
         </div>
 
-        <div className="space-y-1">
-          <Label htmlFor="ownerName">Owner Name</Label>
-          <Input id="ownerName" {...register('ownerName')} />
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="ownerName">Owner name</Label>
+          <Input id="ownerName" variant="underline" {...register('ownerName')} />
           {errors.ownerName && (
-            <p className="text-red-500">{errors.ownerName.message}</p>
+            <p className="text-alert text-[12px] italic font-serif">
+              {errors.ownerName.message}
+            </p>
           )}
         </div>
 
-        <div className="space-y-1">
-          <Label htmlFor="imageUrl">Image URL</Label>
-          <Input id="imageUrl" {...register('imageUrl')} />
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="imageUrl">Photo URL</Label>
+          <Input id="imageUrl" variant="underline" {...register('imageUrl')} />
           {errors.imageUrl && (
-            <p className="text-red-500">{errors.imageUrl.message}</p>
+            <p className="text-alert text-[12px] italic font-serif">
+              {errors.imageUrl.message}
+            </p>
           )}
         </div>
 
-        <div className="space-y-1">
+        <div className="flex flex-col gap-1.5">
           <Label htmlFor="age">Age</Label>
-          <Input id="age" {...register('age', { valueAsNumber: true })} />
-          {errors.age && <p className="text-red-500">{errors.age.message}</p>}
+          <Input
+            id="age"
+            variant="underline"
+            {...register('age', { valueAsNumber: true })}
+          />
+          {errors.age && (
+            <p className="text-alert text-[12px] italic font-serif">
+              {errors.age.message}
+            </p>
+          )}
         </div>
 
-        <div className="space-y-1">
+        <div className="flex flex-col gap-1.5">
           <Label htmlFor="notes">Notes</Label>
           <Textarea id="notes" {...register('notes')} rows={3} />
           {errors.notes && (
-            <p className="text-red-500">{errors.notes.message}</p>
+            <p className="text-alert text-[12px] italic font-serif">
+              {errors.notes.message}
+            </p>
           )}
         </div>
       </div>

@@ -1,19 +1,23 @@
 'use client';
 
 import { useSearchContext } from '@/lib/hooks';
+import Icon from './icon';
 
 export default function SearchForm() {
   const { searchQuery, handleChangeSearchQuery } = useSearchContext();
 
   return (
-    <form className="w-full h-full">
+    <form className="search-field h-full" onSubmit={(e) => e.preventDefault()}>
+      <span className="text-ink-3">
+        <Icon name="search" size={14} />
+      </span>
       <input
-        className="w-full h-full bg-white/20 rounded-md px-5 outline-none transition focus:bg-white/50 hover:bg-white/30 placeholder:text-white/50"
-        placeholder="Search pets"
+        placeholder="Search guests, owners, medications…"
         type="search"
         value={searchQuery}
         onChange={(e) => handleChangeSearchQuery(e.target.value)}
       />
+      <span className="kbd hidden sm:inline-flex">&#8984;K</span>
     </form>
   );
 }

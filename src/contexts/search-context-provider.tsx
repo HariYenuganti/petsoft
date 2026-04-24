@@ -2,6 +2,8 @@
 
 import { createContext, useState } from 'react';
 
+export type RosterFilter = 'on' | 'off';
+
 type SearchContextProviderProps = {
   children: React.ReactNode;
 };
@@ -9,6 +11,8 @@ type SearchContextProviderProps = {
 type TSearchContext = {
   searchQuery: string;
   handleChangeSearchQuery: (query: string) => void;
+  rosterFilter: RosterFilter;
+  handleChangeRosterFilter: (filter: RosterFilter) => void;
 };
 
 export const SearchContext = createContext<TSearchContext | null>(null);
@@ -16,17 +20,18 @@ export const SearchContext = createContext<TSearchContext | null>(null);
 export default function SearchContextProvider({
   children,
 }: SearchContextProviderProps) {
-  // State
   const [searchQuery, setSearchQuery] = useState('');
-  //derived state
-
-  // event handlers
-  const handleChangeSearchQuery = (query: string) => {
-    setSearchQuery(query);
-  };
+  const [rosterFilter, setRosterFilter] = useState<RosterFilter>('on');
 
   return (
-    <SearchContext.Provider value={{ searchQuery, handleChangeSearchQuery }}>
+    <SearchContext.Provider
+      value={{
+        searchQuery,
+        handleChangeSearchQuery: setSearchQuery,
+        rosterFilter,
+        handleChangeRosterFilter: setRosterFilter,
+      }}
+    >
       {children}
     </SearchContext.Provider>
   );

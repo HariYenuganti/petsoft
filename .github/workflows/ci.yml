@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    name: Lint · Typecheck · Test · Build
+    runs-on: ubuntu-latest
+
+    # Placeholder env so module-level clients (Stripe, Prisma) initialize during build.
+    # None of these actually connect anywhere — CI does no network I/O.
+    env:
+      AUTH_SECRET: ci-dummy-secret
+      AUTH_URL: http://localhost:3000
+      DATABASE_URL: postgresql://ci:ci@localhost:5432/ci
+      STRIPE_SECRET_KEY: sk_test_ci_placeholder
+      STRIPE_PRICE_ID: price_ci_placeholder
+      STRIPE_WEBHOOK_SECRET: whsec_ci_placeholder
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Prisma generate
+        run: npx prisma generate
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Build
+        run: npm run build

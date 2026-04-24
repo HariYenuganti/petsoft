@@ -21,14 +21,48 @@ model User {
 }
 
 model Pet {
+  id            String          @id @default(cuid())
+  name          String
+  ownerName     String
+  imageUrl      String
+  age           Int
+  notes         String
+  checkedOutAt  DateTime?
+  events        TimelineEvent[]
+  medications   Medication[]
+  updatedAt     DateTime        @updatedAt
+  createdAt     DateTime        @default(now())
+  user          User            @relation(fields: [userId], references: [id])
+  userId        String
+
+  @@index([userId, checkedOutAt])
+}
+
+model TimelineEvent {
   id        String   @id @default(cuid())
-  name      String
-  ownerName String
-  imageUrl  String
-  age       Int
-  notes     String
-  updatedAt DateTime @updatedAt
+  pet       Pet      @relation(fields: [petId], references: [id], onDelete: Cascade)
+  petId     String
+  time      DateTime @default(now())
+  // "checkin" | "yard" | "meal" | "med" | "nap" | "groom" | "checkout" | "note"
+  kind      String
+  title     String
+  note      String?
+  handler   String?
   createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
+
+  @@index([petId, time])
+}
+
+model Medication {
+  id          String    @id @default(cuid())
+  pet         Pet       @relation(fields: [petId], references: [id], onDelete: Cascade)
+  petId       String
+  name        String
+  dose        String
+  scheduledAt DateTime
+  givenAt     DateTime?
+  givenBy     String?
+  createdAt   DateTime  @default(now())
+
+  @@index([petId, scheduledAt])
 }

@@ -1,4 +1,3 @@
-import BackgroundPattern from '@/components/background-pattern';
 import AppHeader from '@/components/app-header';
 import AppFooter from '@/components/app-footer';
 import PetContextProvider from '@/contexts/pet-context-provider';
@@ -15,13 +14,11 @@ export default async function layout({
   const pets = await getPetsByUserId(session.user.id);
   return (
     <>
-      <BackgroundPattern />
-      <div className="flex flex-col max-w-[1050px] mx-auto px-3 sm:px-4 lg:px-6 min-h-screen">
+      <div className="flex flex-col max-w-[1200px] mx-auto px-4 sm:px-6 min-h-screen">
         <AppHeader />
         <SearchContextProvider>
           <PetContextProvider data={pets}>{children}</PetContextProvider>
         </SearchContextProvider>
-
         <AppFooter />
       </div>
       <Toaster position="top-right" />

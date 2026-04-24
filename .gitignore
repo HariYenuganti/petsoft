@@ -40,4 +40,5 @@ next-env.d.ts
 # agent
 .agent
 .agents
+.claude
 

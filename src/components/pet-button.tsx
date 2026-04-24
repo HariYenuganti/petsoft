@@ -1,6 +1,6 @@
 'use client';
-import { PlusIcon } from 'lucide-react';
 import { Button } from './ui/button';
+import Icon from './icon';
 import {
   Dialog,
   DialogContent,
@@ -32,7 +32,7 @@ export default function PetButton({
   if (actionType === 'checkout') {
     return (
       <Button
-        variant="secondary"
+        variant="outline"
         onClick={onClick}
         disabled={disabled}
         className={className}
@@ -46,19 +46,23 @@ export default function PetButton({
     <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
       <DialogTrigger asChild>
         {actionType === 'add' ? (
-          <Button size="icon" className={className}>
-            <PlusIcon className="w-6 h-6" />
+          <Button size="sm" className={className}>
+            <Icon name="plus" size={14} />
+            New guest
           </Button>
         ) : (
-          <Button variant="secondary" className={className}>
+          <Button variant="outline" className={className}>
             {children}
           </Button>
         )}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
+          <p className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-ink-3">
+            {actionType === 'add' ? 'New guest' : 'Edit guest'}
+          </p>
           <DialogTitle>
-            {actionType === 'add' ? 'Add a new pet' : 'Edit pet'}
+            {actionType === 'add' ? 'Welcome a new guest.' : 'Update the ledger.'}
           </DialogTitle>
         </DialogHeader>
         <PetForm

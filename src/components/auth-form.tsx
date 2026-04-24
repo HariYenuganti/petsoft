@@ -13,35 +13,36 @@ export default function AuthForm({ type }: AuthFormProps) {
   const [signUpError, signUpAction] = useActionState(signUp, undefined);
   const [logInError, logInAction] = useActionState(logIn, undefined);
 
+  const error = type === 'logIn' ? logInError : signUpError;
+
   return (
-    <form action={type === 'logIn' ? logInAction : signUpAction}>
-      <div className="space-y-1">
+    <form
+      action={type === 'logIn' ? logInAction : signUpAction}
+      className="flex flex-col gap-6"
+    >
+      <div className="flex flex-col gap-1.5">
         <Label htmlFor="email">Email</Label>
         <Input
-          className="border-zinc-400"
+          variant="underline"
           name="email"
           type="email"
           id="email"
           required
         />
       </div>
-      <div className="mb-4 mt-2 space-y-1">
+      <div className="flex flex-col gap-1.5">
         <Label htmlFor="password">Password</Label>
         <Input
-          className="border-zinc-400"
+          variant="underline"
           name="password"
           type="password"
           id="password"
           required
         />
+        <p className="field-hint">At least 8 characters.</p>
       </div>
       <AuthFormBtn type={type} />
-      {signUpError && (
-        <p className="text-red-500 text-sm mt-2">{signUpError.message}</p>
-      )}
-      {logInError && (
-        <p className="text-red-500 text-sm mt-2">{logInError.message}</p>
-      )}
+      {error && <p className="auth-error">{error.message}</p>}
     </form>
   );
 }

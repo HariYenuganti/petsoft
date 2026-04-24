@@ -9,18 +9,23 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-      },
       borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
+        sm: '4px',
+        md: '8px',
+        lg: '14px',
+        xl: '20px',
+      },
+      fontFamily: {
+        serif: ['var(--font-instrument-serif)', 'Cormorant Garamond', 'Georgia', 'serif'],
+        sans: ['var(--font-inter-tight)', 'ui-sans-serif', 'system-ui'],
+        mono: ['var(--font-jetbrains-mono)', 'ui-monospace', 'Menlo'],
+        display: ['var(--font-instrument-serif)', 'serif'],
+        hand: ['var(--font-caveat)', 'cursive'],
+      },
+      fontSize: {
+        eyebrow: ['10.5px', { letterSpacing: '0.14em', lineHeight: '1.2' }],
       },
       colors: {
-        light: 'rgba(0,0,0,0.08)',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {
@@ -46,21 +51,50 @@ const config: Config = {
         accent: {
           DEFAULT: 'hsl(var(--accent))',
           foreground: 'hsl(var(--accent-foreground))',
+          ink: 'hsl(var(--accent-ink-hue))',
+          soft: 'hsl(var(--accent-soft-hue))',
         },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',
           foreground: 'hsl(var(--destructive-foreground))',
         },
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
+        border: 'hsl(var(--border) / 0.12)',
+        input: 'hsl(var(--input) / 0.12)',
         ring: 'hsl(var(--ring))',
-        chart: {
-          '1': 'hsl(var(--chart-1))',
-          '2': 'hsl(var(--chart-2))',
-          '3': 'hsl(var(--chart-3))',
-          '4': 'hsl(var(--chart-4))',
-          '5': 'hsl(var(--chart-5))',
+        paper: {
+          DEFAULT: 'hsl(var(--paper))',
+          2: 'hsl(var(--paper-2))',
+          3: 'hsl(var(--paper-3))',
         },
+        ink: {
+          DEFAULT: 'hsl(var(--ink))',
+          2: 'hsl(var(--ink-2))',
+          3: 'hsl(var(--ink-3))',
+          4: 'hsl(var(--ink-4))',
+        },
+        stone: {
+          DEFAULT: 'hsl(var(--stone))',
+          2: 'hsl(var(--stone-2))',
+        },
+        line: 'hsl(var(--ink) / 0.12)',
+        'line-2': 'hsl(var(--ink) / 0.06)',
+        ok: 'hsl(var(--ok-hue))',
+        warn: 'hsl(var(--warn-hue))',
+        alert: 'hsl(var(--alert-hue))',
+      },
+      keyframes: {
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
+        },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
+        },
+      },
+      animation: {
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
       },
     },
   },

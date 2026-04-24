@@ -12,7 +12,7 @@ export default function ContentBlock({
   return (
     <div
       className={cn(
-        'bg-[#F7F8FA] shadow-sm rounded-md overflow-hidden h-full w-full',
+        'bg-paper-2 border border-line rounded-lg overflow-hidden h-full w-full',
         className,
       )}
     >

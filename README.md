@@ -122,8 +122,8 @@ Stripe account (test mode works)
 **1. Clone & install**
 
 ```bash
-git clone https://github.com/HariYenuganti/petsoft.git
-cd petsoft
+git clone https://github.com/HariYenuganti/kennelry.git
+cd kennelry
 npm install
 ```
 

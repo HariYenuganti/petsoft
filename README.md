@@ -237,20 +237,4 @@ kennelry/
 | `npx prisma migrate dev` | Interactive migration workflow |
 | `npx prisma db seed` | Run `prisma/seed.ts` |
 
----
-
-## 🗺️ Roadmap
-
-- [ ] Promote the Agenda to its own `/app/agenda` route
-- [ ] Left sidebar layout with nav sections + user chip
-- [ ] `Pet.status` enum for a proper **Observation** filter tab
-- [ ] Owner portal (read-only daily recap by email)
-- [ ] PDF export for checkout tickets
-- [ ] Dark mode (currently light-only)
-
----
-
-## 📄 License
-
-Open source under the [MIT License](LICENSE).
 
